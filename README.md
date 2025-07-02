@@ -19,17 +19,19 @@ First, open your terminal, navigate to the project directory, and install the ne
 npm install
 ```
 
-### 2. Set Up Environment Variables
+### 2. Set Up Firebase
 
-This project requires Firebase for user authentication.
+This project requires Firebase for user authentication and for the database.
 
-1.  **Create an environment file**: Create a new file named `.env` in the root of your project.
+#### a) Set Up Environment Variables
+
+1.  **Create an environment file**: Create a new file named `.env` in the root of your project if it doesn't exist.
 
 2.  **Get your Firebase credentials**:
     *   Go to the [Firebase Console](https://console.firebase.google.com).
     *   Create a new project or select an existing one.
     *   In your project, go to **Project Settings** (click the gear icon ⚙️) > **Your apps**.
-    *   Click the **Web icon** (`</>`) to add a web app.
+    *   Click the **Web icon** (`</>`) to add a web app if you haven't already.
     *   After registering the app, you will see a `firebaseConfig` object.
 
 3.  **Populate your `.env` file**: Copy the values from the `firebaseConfig` object into your `.env` file. It should look like this:
@@ -43,7 +45,16 @@ This project requires Firebase for user authentication.
     NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID="YOUR_MESSAGING_SENDER_ID"
     NEXT_PUBLIC_FIREBASE_APP_ID="YOUR_APP_ID"
     ```
-    **Important**: Replace `"YOUR_..."` with your actual credentials from the Firebase console. The app will not run without them.
+    **Important**: Replace `"YOUR_..."` with your actual credentials from the Firebase console.
+
+#### b) Enable Firestore Database
+
+1. In the [Firebase Console](https://console.firebase.google.com), select your project.
+2. In the left-hand navigation menu under "Build", click **Firestore Database**.
+3. Click **Create database**.
+4. Select **Start in test mode**. This will allow the application to read and write data during development.
+5. Choose a location for your database and click **Enable**.
+
 
 ### 3. Run the Development Servers
 
