@@ -8,15 +8,34 @@ import { Tv, Clapperboard, Award } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { Skeleton } from '@/components/ui/skeleton';
 
+const landingNavLinks = [
+  { href: '/tv-shows', label: 'TV Shows' },
+  { href: '/movies', label: 'Movies' },
+  { href: '/new-popular', label: 'New & Popular' },
+];
+
 const LandingHeader = () => {
     const { user, loading } = useAuth();
     
     return (
         <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-sm">
           <div className="container mx-auto flex items-center justify-between px-4 py-3">
-            <Link href="/" className="text-2xl font-bold text-primary">
-              STRIMO
-            </Link>
+            <div className="flex items-center gap-8">
+              <Link href="/" className="text-2xl font-bold text-primary">
+                STRIMO
+              </Link>
+              <nav className="hidden md:flex items-center gap-6">
+                {landingNavLinks.map((link) => (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+              </nav>
+            </div>
             <nav className="flex items-center gap-2">
               {loading ? (
                 <Skeleton className="h-9 w-20" />
