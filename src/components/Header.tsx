@@ -18,6 +18,7 @@ import {
   DropdownMenuTrigger,
 } from './ui/dropdown-menu';
 import { cn } from '@/lib/utils';
+import { Skeleton } from './ui/skeleton';
 
 const navLinks = [
   { href: '/browse', label: 'Home' },
@@ -30,7 +31,7 @@ export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -92,25 +93,39 @@ export default function Header() {
           <Button variant="ghost" size="icon">
             <Bell className="h-5 w-5" />
           </Button>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="flex items-center gap-2 p-0 h-auto">
-                <Avatar className="h-8 w-8">
-                  <AvatarImage src={user?.photoURL || ''} alt={user?.displayName || 'User'} data-ai-hint="person face" />
-                  <AvatarFallback>{getInitials(user?.displayName)}</AvatarFallback>
-                </Avatar>
-                <ChevronDown className="h-4 w-4 text-muted-foreground" />
+          
+          {loading ? (
+            <Skeleton className="h-8 w-8 rounded-full" />
+          ) : user ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" className="flex items-center gap-2 p-0 h-auto">
+                  <Avatar className="h-8 w-8">
+                    <AvatarImage src={user?.photoURL || ''} alt={user?.displayName || 'User'} data-ai-hint="person face" />
+                    <AvatarFallback>{getInitials(user?.displayName)}</AvatarFallback>
+                  </Avatar>
+                  <ChevronDown className="h-4 w-4 text-muted-foreground" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-56">
+                <DropdownMenuLabel>{user?.displayName || 'My Account'}</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onSelect={() => router.push('/profiles')}>Profiles</DropdownMenuItem>
+                <DropdownMenuItem>Settings</DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onSelect={handleSignOut}>Sign Out</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <div className="flex items-center gap-2">
+              <Button variant="ghost" asChild>
+                  <Link href="/login">Login</Link>
               </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-56">
-              <DropdownMenuLabel>{user?.displayName || 'My Account'}</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem onSelect={() => router.push('/profiles')}>Profiles</DropdownMenuItem>
-              <DropdownMenuItem>Settings</DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem onSelect={handleSignOut}>Sign Out</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+              <Button asChild>
+                  <Link href="/signup">Sign Up</Link>
+              </Button>
+            </div>
+          )}
         </div>
       </div>
     </header>
