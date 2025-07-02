@@ -1,6 +1,6 @@
 'use client';
 
-import { notFound } from 'next/navigation';
+import { useParams, notFound } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft, Plus, ThumbsUp, ThumbsDown, Loader2 } from 'lucide-react';
 
@@ -9,7 +9,8 @@ import { Button } from '@/components/ui/button';
 import ContentRow from '@/components/ContentRow';
 import { useAuth } from '@/hooks/useAuth';
 
-export default function WatchPage({ params }: { params: { id: string } }) {
+export default function WatchPage() {
+  const params = useParams<{ id: string }>();
   const { user, loading } = useAuth();
   const content = contentData.find((c) => c.id === params.id);
 
