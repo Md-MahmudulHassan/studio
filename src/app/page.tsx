@@ -1,37 +1,95 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { profiles } from '@/lib/data';
-import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import Footer from '@/components/Footer';
+import { Tv, Clapperboard, Award } from 'lucide-react';
 
-export default function ProfilesPage() {
-  return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-background text-foreground">
-      <div className="text-center">
-        <h1 className="text-5xl font-semibold mb-8">Who's watching?</h1>
-        <div className="flex flex-wrap justify-center gap-8 mb-8">
-          {profiles.map((profile) => (
-            <Link key={profile.id} href="/browse" className="group">
-              <div className="w-40 h-40 rounded-md overflow-hidden transition-all duration-300 border-2 border-transparent group-hover:border-primary group-hover:scale-105">
-                <Image
-                  src={profile.avatar}
-                  alt={profile.name}
-                  width={160}
-                  height={160}
-                  className="object-cover w-full h-full"
-                  data-ai-hint="person face"
-                />
-              </div>
-              <p className="mt-2 text-muted-foreground text-lg group-hover:text-foreground transition-colors">
-                {profile.name}
-              </p>
-            </Link>
-          ))}
-        </div>
-        <Button variant="outline" size="lg" className="text-muted-foreground border-muted-foreground hover:bg-muted-foreground/10 hover:text-foreground">
-          Manage Profiles
-        </Button>
+const LandingHeader = () => (
+    <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-sm">
+      <div className="container mx-auto flex items-center justify-between px-4 py-3">
+        <Link href="/" className="text-2xl font-bold text-primary">
+          STREAMVERSE
+        </Link>
+        <nav className="flex items-center gap-2">
+            <Button variant="ghost" asChild>
+                <Link href="/login">Login</Link>
+            </Button>
+            <Button asChild>
+                <Link href="/signup">Sign Up</Link>
+            </Button>
+        </nav>
       </div>
+    </header>
+);
+
+export default function LandingPage() {
+  return (
+    <div className="bg-background text-foreground">
+      <LandingHeader />
+      <main className="pt-16">
+        <section className="relative h-[calc(100vh-4rem)] flex items-center justify-center text-center">
+            <Image
+                src="https://placehold.co/1920x1080.png"
+                alt="Movie collage background"
+                fill
+                className="object-cover"
+                data-ai-hint="movie collage"
+            />
+            <div className="absolute inset-0 bg-black/60" />
+            <div className="relative z-10 max-w-4xl mx-auto px-4">
+                <h1 className="text-5xl md:text-7xl font-black text-white drop-shadow-lg">
+                    Your Universe of Movies & TV Shows.
+                </h1>
+                <p className="mt-4 text-lg md:text-xl text-white/90 drop-shadow-md">
+                    Unlimited movies, TV shows, and more. Watch anywhere. Cancel anytime.
+                </p>
+                <div className="mt-8">
+                    <Button size="lg" asChild>
+                        <Link href="/signup">
+                           Get Started
+                        </Link>
+                    </Button>
+                </div>
+            </div>
+        </section>
+
+        <section className="py-20 bg-card">
+            <div className="container mx-auto px-4">
+                <div className="grid md:grid-cols-3 gap-12 text-center">
+                    <div className="flex flex-col items-center">
+                        <Tv className="h-12 w-12 text-primary mb-4" />
+                        <h3 className="text-2xl font-bold">Watch on any device</h3>
+                        <p className="text-muted-foreground mt-2">Stream on your phone, tablet, laptop, and TV.</p>
+                    </div>
+                    <div className="flex flex-col items-center">
+                        <Clapperboard className="h-12 w-12 text-primary mb-4" />
+                        <h3 className="text-2xl font-bold">Endless entertainment</h3>
+                        <p className="text-muted-foreground mt-2">Discover new and classic movies and TV shows.</p>
+                    </div>
+                    <div className="flex flex-col items-center">
+                        <Award className="h-12 w-12 text-primary mb-4" />
+                        <h3 className="text-2xl font-bold">Award-winning content</h3>
+                        <p className="text-muted-foreground mt-2">Enjoy critically acclaimed original productions.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section className="py-20">
+          <div className="container mx-auto text-center">
+            <h2 className="text-4xl font-bold mb-4">Ready to watch?</h2>
+            <p className="text-muted-foreground mb-8">Enter your email to create or restart your membership.</p>
+            <div className="flex justify-center">
+                <Button size="lg" asChild>
+                    <Link href="/signup">
+                       Sign Up Now
+                    </Link>
+                </Button>
+            </div>
+          </div>
+        </section>
+      </main>
+      <Footer />
     </div>
   );
 }

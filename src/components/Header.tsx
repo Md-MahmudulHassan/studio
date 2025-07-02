@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { Bell, ChevronDown, Search } from 'lucide-react';
 import { Button } from './ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
@@ -16,9 +16,17 @@ import {
 } from './ui/dropdown-menu';
 import { cn } from '@/lib/utils';
 
+const navLinks = [
+  { href: '/browse', label: 'Home' },
+  { href: '/tv-shows', label: 'TV Shows' },
+  { href: '/movies', label: 'Movies' },
+  { href: '/new-popular', label: 'New & Popular' },
+];
+
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const router = useRouter();
+  const pathname = usePathname();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -41,18 +49,20 @@ export default function Header() {
             STREAMVERSE
           </Link>
           <nav className="hidden md:flex items-center gap-4">
-            <Link href="/browse" className="text-sm font-medium text-foreground hover:text-muted-foreground transition-colors">
-              Home
-            </Link>
-            <Link href="#" className="text-sm font-medium text-foreground hover:text-muted-foreground transition-colors">
-              TV Shows
-            </Link>
-            <Link href="#" className="text-sm font-medium text-foreground hover:text-muted-foreground transition-colors">
-              Movies
-            </Link>
-            <Link href="#" className="text-sm font-medium text-foreground hover:text-muted-foreground transition-colors">
-              New & Popular
-            </Link>
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={cn(
+                  'text-sm font-medium transition-colors',
+                  pathname === link.href
+                    ? 'text-foreground font-semibold'
+                    : 'text-muted-foreground hover:text-foreground'
+                )}
+              >
+                {link.label}
+              </Link>
+            ))}
           </nav>
         </div>
         <div className="flex items-center gap-4">
@@ -75,7 +85,7 @@ export default function Header() {
             <DropdownMenuContent align="end" className="w-56">
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem onSelect={() => router.push('/')}>Profiles</DropdownMenuItem>
+              <DropdownMenuItem onSelect={() => router.push('/profiles')}>Profiles</DropdownMenuItem>
               <DropdownMenuItem>Settings</DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem onSelect={() => router.push('/login')}>Log out</DropdownMenuItem>

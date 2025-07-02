@@ -17,6 +17,7 @@ export type Content = {
   rating: string;
   duration: string;
   cast: string[];
+  type: 'movie' | 'tv-show';
 };
 
 export const contentData: Content[] = [
@@ -32,6 +33,7 @@ export const contentData: Content[] = [
     rating: 'PG-13',
     duration: '2h 49m',
     cast: ['Matthew McConaughey', 'Anne Hathaway', 'Jessica Chastain'],
+    type: 'movie',
   },
   {
     id: '2',
@@ -45,6 +47,7 @@ export const contentData: Content[] = [
     rating: 'R',
     duration: '1h 47m',
     cast: ['Arnold Schwarzenegger', 'Forest Whitaker', 'Johnny Knoxville'],
+    type: 'movie',
   },
   {
     id: '3',
@@ -58,6 +61,7 @@ export const contentData: Content[] = [
     rating: 'PG-13',
     duration: '2h 5m',
     cast: ['Emily Blunt', 'John Krasinski', 'Cillian Murphy'],
+    type: 'tv-show',
   },
   {
     id: '4',
@@ -71,6 +75,7 @@ export const contentData: Content[] = [
     rating: 'PG-13',
     duration: '2h 1m',
     cast: ['Chris Pratt', 'Zoe Saldana', 'Dave Bautista'],
+    type: 'movie',
   },
   {
     id: '5',
@@ -84,6 +89,7 @@ export const contentData: Content[] = [
     rating: 'R',
     duration: '2h 2m',
     cast: ['Joaquin Phoenix', 'Robert De Niro', 'Zazie Beetz'],
+    type: 'movie',
   },
   {
     id: '6',
@@ -97,6 +103,7 @@ export const contentData: Content[] = [
     rating: 'R',
     duration: '2h 15m',
     cast: ['Ben Affleck', 'Rosamund Pike', 'Neil Patrick Harris'],
+    type: 'tv-show',
   },
   {
     id: '7',
@@ -110,6 +117,7 @@ export const contentData: Content[] = [
     rating: 'PG-13',
     duration: '1h 58m',
     cast: ['Jason Clarke', 'Jake Gyllenhaal', 'Josh Brolin'],
+    type: 'movie',
   },
   {
     id: '8',
@@ -123,6 +131,7 @@ export const contentData: Content[] = [
     rating: 'R',
     duration: '1h 35m',
     cast: ['Vera Farmiga', 'Patrick Wilson', 'Lili Taylor'],
+    type: 'tv-show',
   },
   {
     id: '9',
@@ -136,6 +145,7 @@ export const contentData: Content[] = [
     rating: 'PG-13',
     duration: '1h 42m',
     cast: ['Will Ferrell', 'John C. Reilly', 'Sacha Baron Cohen'],
+    type: 'tv-show',
   }
 ];
 
