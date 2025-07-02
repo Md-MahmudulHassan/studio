@@ -1,26 +1,44 @@
+'use client';
+
 import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import Footer from '@/components/Footer';
 import { Tv, Clapperboard, Award } from 'lucide-react';
+import { useAuth } from '@/hooks/useAuth';
+import { Skeleton } from '@/components/ui/skeleton';
 
-const LandingHeader = () => (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-sm">
-      <div className="container mx-auto flex items-center justify-between px-4 py-3">
-        <Link href="/" className="text-2xl font-bold text-primary">
-          STREAMVERSE
-        </Link>
-        <nav className="flex items-center gap-2">
-            <Button variant="ghost" asChild>
-                <Link href="/login">Login</Link>
-            </Button>
-            <Button asChild>
-                <Link href="/signup">Sign Up</Link>
-            </Button>
-        </nav>
-      </div>
-    </header>
-);
+const LandingHeader = () => {
+    const { user, loading } = useAuth();
+    
+    return (
+        <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-sm">
+          <div className="container mx-auto flex items-center justify-between px-4 py-3">
+            <Link href="/" className="text-2xl font-bold text-primary">
+              STREAMVERSE
+            </Link>
+            <nav className="flex items-center gap-2">
+              {loading ? (
+                <Skeleton className="h-9 w-20" />
+              ) : user ? (
+                <Button asChild>
+                    <Link href="/browse">Go to App</Link>
+                </Button>
+              ) : (
+                <>
+                  <Button variant="ghost" asChild>
+                      <Link href="/login">Login</Link>
+                  </Button>
+                  <Button asChild>
+                      <Link href="/signup">Sign Up</Link>
+                  </Button>
+                </>
+              )}
+            </nav>
+          </div>
+        </header>
+    )
+};
 
 export default function LandingPage() {
   return (
