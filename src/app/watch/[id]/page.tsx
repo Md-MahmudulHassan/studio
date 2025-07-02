@@ -1,12 +1,16 @@
+'use client';
+
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import { ArrowLeft, Plus, ThumbsUp, ThumbsDown } from 'lucide-react';
+import { ArrowLeft, Plus, ThumbsUp, ThumbsDown, Loader2 } from 'lucide-react';
 
 import { contentData } from '@/lib/data';
 import { Button } from '@/components/ui/button';
 import ContentRow from '@/components/ContentRow';
+import { useAuth } from '@/hooks/useAuth';
 
 export default function WatchPage({ params }: { params: { id: string } }) {
+  const { user, loading } = useAuth();
   const content = contentData.find((c) => c.id === params.id);
 
   if (!content) {
@@ -16,16 +20,41 @@ export default function WatchPage({ params }: { params: { id: string } }) {
   const similarContent = contentData.filter(
     (c) => c.genre === content.genre && c.id !== content.id
   );
+  
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-screen bg-black">
+        <Loader2 className="h-12 w-12 animate-spin text-primary" />
+      </div>
+    );
+  }
 
   return (
     <div className="bg-black min-h-screen">
-      <div className="relative pt-[56.25%]">
-        <video
-          className="absolute top-0 left-0 w-full h-full"
-          controls
-          autoPlay
-          src={content.videoUrl}
-        />
+      <div className="relative pt-[56.25%] bg-black">
+        {user ? (
+          <video
+            className="absolute top-0 left-0 w-full h-full"
+            controls
+            autoPlay
+            src={content.videoUrl}
+          />
+        ) : (
+          <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 text-center text-white bg-black/80">
+            <h2 className="text-3xl font-bold">Please sign in to watch</h2>
+            <p className="text-muted-foreground max-w-sm">
+              Create an account or log in to enjoy this content and much more from Strimo.
+            </p>
+            <div className="flex gap-4">
+              <Button asChild>
+                <Link href={`/login?redirect=/watch/${params.id}`}>Login</Link>
+              </Button>
+              <Button variant="secondary" asChild>
+                <Link href={`/signup?redirect=/watch/${params.id}`}>Sign Up</Link>
+              </Button>
+            </div>
+          </div>
+        )}
         <div className="absolute top-4 left-4 z-10">
           <Button asChild variant="ghost" size="icon" className="h-12 w-12 rounded-full bg-black/50 hover:bg-black/75">
             <Link href="/browse">

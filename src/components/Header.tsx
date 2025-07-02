@@ -43,7 +43,7 @@ export default function Header() {
   const handleSignOut = async () => {
     try {
       await signOut(auth);
-      router.push('/login');
+      router.push('/');
     } catch (error) {
       console.error("Error signing out: ", error);
     }
@@ -66,7 +66,7 @@ export default function Header() {
       <div className="container mx-auto flex items-center justify-between px-4 py-3">
         <div className="flex items-center gap-8">
           <Link href="/browse" className="text-2xl font-bold text-primary">
-            STREAMVERSE
+            STRIMO
           </Link>
           <nav className="hidden md:flex items-center gap-4">
             {navLinks.map((link) => (
@@ -108,7 +108,7 @@ export default function Header() {
               <DropdownMenuItem onSelect={() => router.push('/profiles')}>Profiles</DropdownMenuItem>
               <DropdownMenuItem>Settings</DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem onSelect={handleSignOut}>Log out</DropdownMenuItem>
+              <DropdownMenuItem onSelect={handleSignOut}>Sign Out</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>

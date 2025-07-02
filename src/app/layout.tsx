@@ -4,8 +4,8 @@ import { Toaster } from '@/components/ui/toaster';
 import { AuthProvider } from '@/components/AuthProvider';
 
 export const metadata: Metadata = {
-  title: 'StreamVerse',
-  description: 'Your universe of movies and TV shows.',
+  title: 'Strimo',
+  description: 'Strimo - Your universe of movies and TV shows.',
 };
 
 export default function RootLayout({

@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "@/lib/firebase";
 import { useAuth } from "@/hooks/useAuth";
@@ -22,12 +22,14 @@ export default function SignupPage() {
   const router = useRouter();
   const { toast } = useToast();
   const { user, loading } = useAuth();
+  const searchParams = useSearchParams();
+  const redirect = searchParams.get("redirect");
 
   useEffect(() => {
     if (!loading && user) {
-      router.push('/browse');
+      router.push(redirect || '/browse');
     }
-  }, [user, loading, router]);
+  }, [user, loading, router, redirect]);
 
   const handleSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -37,7 +39,7 @@ export default function SignupPage() {
       await updateProfile(userCredential.user, {
         displayName: fullName,
       });
-      router.push("/browse");
+      router.push(redirect || "/browse");
     } catch (error: any) {
       toast({
         title: "Sign-up failed",
@@ -49,7 +51,7 @@ export default function SignupPage() {
     }
   };
 
-  if (loading || user) {
+  if (loading || (!loading && user)) {
     return (
       <div className="flex items-center justify-center h-screen bg-background">
         <Loader2 className="h-12 w-12 animate-spin text-primary" />
@@ -123,7 +125,7 @@ export default function SignupPage() {
             </form>
             <div className="mt-4 text-center text-sm">
               Already have an account?{" "}
-              <Link href="/login" className="underline text-primary/90 hover:text-primary">
+              <Link href={redirect ? `/login?redirect=${redirect}` : "/login"} className="underline text-primary/90 hover:text-primary">
                 Login
               </Link>
             </div>

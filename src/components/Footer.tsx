@@ -64,7 +64,7 @@ export default function Footer() {
             </Link>
           ))}
         </div>
-        <p className="text-xs">&copy; {new Date().getFullYear()} StreamVerse, Inc.</p>
+        <p className="text-xs">&copy; {new Date().getFullYear()} Strimo, Inc.</p>
       </div>
     </footer>
   );

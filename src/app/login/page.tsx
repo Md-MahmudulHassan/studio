@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "@/lib/firebase";
 import { useAuth } from "@/hooks/useAuth";
@@ -21,19 +21,21 @@ export default function LoginPage() {
   const router = useRouter();
   const { toast } = useToast();
   const { user, loading } = useAuth();
+  const searchParams = useSearchParams();
+  const redirect = searchParams.get("redirect");
 
   useEffect(() => {
     if (!loading && user) {
-      router.push('/browse');
+      router.push(redirect || '/browse');
     }
-  }, [user, loading, router]);
+  }, [user, loading, router, redirect]);
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      router.push("/browse");
+      router.push(redirect || "/browse");
     } catch (error: any) {
       toast({
         title: "Login failed",
@@ -45,7 +47,7 @@ export default function LoginPage() {
     }
   };
 
-  if (loading || user) {
+  if (loading || (!loading && user)) {
     return (
       <div className="flex items-center justify-center h-screen bg-background">
         <Loader2 className="h-12 w-12 animate-spin text-primary" />
@@ -112,7 +114,7 @@ export default function LoginPage() {
             </form>
             <div className="mt-4 text-center text-sm">
               Don&apos;t have an account?{" "}
-              <Link href="/signup" className="underline text-primary/90 hover:text-primary">
+              <Link href={redirect ? `/signup?redirect=${redirect}` : "/signup"} className="underline text-primary/90 hover:text-primary">
                 Sign up
               </Link>
             </div>
